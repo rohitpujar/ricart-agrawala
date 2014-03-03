@@ -1,10 +1,15 @@
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.net.Socket;
 import java.sql.Timestamp;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.PriorityQueue;
 
 
 public class RicartAgrawala {
@@ -84,18 +89,25 @@ public class RicartAgrawala {
 //	}
 	
 	public synchronized void criticalSection(){
+//		System.out.println("Time entered C*S : "+TimeStamp.getStartTime());
+		long timeElapsed=TimeStamp.getEndTime()-TimeStamp.getStartTime();
+		System.out.println(" ----- Time elapsed to request and enter : "+timeElapsed);
 		CriticalSectionRequests csr = new CriticalSectionRequests();
 		if(true){
 			System.out.println("******** Entered critical section!!!!!! ********* "+ ++cscount);
-				for(int i=0;i<10000;i++){
-					;
-			} 
+			try {
+				Thread.sleep(20);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
 		}
+		writeToFile();
 		RicartAgrawala.setRequestingCS(false);
 		TimeStamp.setInstancetoNull();
 		sendReplyToDeferredRequests();
-		if(noofrequests<499){
-			++noofrequests;
+//		System.out.println("Time exited C*S : "+TimeStamp.getEndTime());
+		++noofrequests;
+		if(noofrequests<20){
 			csr.sendCSRequests(id);
 		}
 		
@@ -120,10 +132,23 @@ public class RicartAgrawala {
 		DeferredRequests.deferredlist = new HashMap<Integer, Socket>();
 		}
 	
-	public static void removeItems(List toRemove){
-		Iterator it = DeferredRequests.deferredlist.entrySet().iterator();
-		while(it.hasNext()){
-			Map.Entry pairs = (Map.Entry) it.next();
+	
+	public void writeToFile() {
+		try {
+			File file = new File("/home/rohit/Desktop/ricartoutput.txt");
+			if (!file.exists()) {
+				file.createNewFile();
+			}
+			FileWriter fw = new FileWriter(file.getAbsoluteFile(), true);
+			BufferedWriter bw = new BufferedWriter(fw);
+
+			synchronized (this) {
+				bw.write("Node no. "+id+ " Entered critical section..." + "\n"); // write to file
+			}
+			bw.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
-		
-	}}
+}
+	
