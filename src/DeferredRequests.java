@@ -8,12 +8,12 @@ import java.util.Map;
 
 public class DeferredRequests {
 
-	static Map<Timestamp,Socket> deferredlist = new HashMap<Timestamp, Socket>();
+	static Map<Integer,Socket> deferredlist = new HashMap<Integer, Socket>();
 	static List toRemove=new ArrayList<>();
 	
 	
-	public static void add(Timestamp ts,Socket s){
-		deferredlist.put(ts, s);
+	public static void add(Integer id,Socket s){
+		deferredlist.put(id, s);
 	}
 	
 	public static int getSize(){

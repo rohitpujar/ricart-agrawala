@@ -53,7 +53,8 @@ public class RicartAgrawala {
 				
 			} 
 			if(myTimeStamp.compareTo(guestTimestamp)<0){ //my timestamp has higher priority
-				DeferredRequests.add(guestTimestamp, s);
+				DeferredRequests.add(guestid, s);
+				System.out.println("<<<<< Request deferred for "+guestid);
 //				System.out.println("MyTimeStamp :   "+myTimeStamp);
 //				System.out.println("Requesting TS : "+guestTimestamp);
 //				System.out.println(".........................Reply has been deffered...");
@@ -66,7 +67,7 @@ public class RicartAgrawala {
 					msgSender.sendMessage(s, id, Message.PERMIT);
 					System.out.println("########                  PERMIT sent*");
 				}else{
-					DeferredRequests.add(guestTimestamp, s);
+					DeferredRequests.add(guestid, s);
 //				System.out.println(".........................Reply has been deffered...");
 				}
 			}
@@ -90,11 +91,10 @@ public class RicartAgrawala {
 					;
 			} 
 		}
-		
 		RicartAgrawala.setRequestingCS(false);
 		TimeStamp.setInstancetoNull();
 		sendReplyToDeferredRequests();
-		if(noofrequests<100){
+		if(noofrequests<499){
 			++noofrequests;
 			csr.sendCSRequests(id);
 		}
@@ -105,18 +105,19 @@ public class RicartAgrawala {
 		MessageSender msgSender=new MessageSender();
 		Iterator it = DeferredRequests.deferredlist.entrySet().iterator();
 		while(it.hasNext()){
-			System.out.println("Iterating deffered list......................");
+//			System.out.println("Iterating deffered list......................");
 			if(!isRequestingCS()){
 //				System.out.println("Actually sending permits to deferred requests...!!!!!!!!");
 			Map.Entry pairs = (Map.Entry) it.next();
 //			msgSender.sendMessage((Socket)it.next(), 1, Message.PERMIT);
 //			DeferredRequests.toRemove.add(pairs.getKey());
+			System.out.println(">>>> Sent deferred PERMIT to : "+pairs.getKey());
 			msgSender.sendMessage((Socket)pairs.getValue(), id, Message.PERMIT);
 //			System.out.println("***************PERMIT REPLY SENT**************** "+ ++permitreplies);
 //			it.remove();
 			}
 		}
-		DeferredRequests.deferredlist = new HashMap<Timestamp, Socket>();
+		DeferredRequests.deferredlist = new HashMap<Integer, Socket>();
 		}
 	
 	public static void removeItems(List toRemove){
