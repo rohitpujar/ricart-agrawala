@@ -6,7 +6,11 @@ public class TimeStamp {
     private static Timestamp instance;
     private static long startTime;
     private static long endTime;
+    private static long time;
     
+    public static long getTime(){
+    	return new Date().getTime();
+    }
     
 
     public static long getStartTime() {
