@@ -47,7 +47,6 @@ public class CriticalSectionRequests extends Thread {
 	
 	public static int randInt(int min, int max) {
 
-	    // Usually this can be a field rather than a method variable
 	    Random rand = new Random();
 
 	    // nextInt is normally exclusive of the top value,
@@ -58,9 +57,4 @@ public class CriticalSectionRequests extends Thread {
 	}
 	
 	
-//	public void run(){
-//		CriticalSectionRequests csrequest=new CriticalSectionRequests();
-//		csrequest.sendCSRequests(0);
-//		
-//	}
 }

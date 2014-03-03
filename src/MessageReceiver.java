@@ -45,7 +45,7 @@ public class MessageReceiver extends Thread{
 				if(recvdMsgTokens.get(0).equals("READY")){
 //					if(id!=0)
 					totalMessages++;
-					if(totalMessages==3){
+					if(totalMessages==TCPRunner.totalNodes-1){
 //						System.out.println("Received READY from all of the nodes expected...");
 						csrequest=new CriticalSectionRequests();
 //						msgSender.sendToAll(Message.INITIATE.toString());
@@ -69,7 +69,7 @@ public class MessageReceiver extends Thread{
 					System.out.println("Received PERMIT from "+recvdMsgTokens.get(1));
 					permit++;
 //					System.out.println("--------- PERMIT COUNT IS : "+permit);
-					if(permit==3){
+					if(permit==TCPRunner.totalNodes-1){
 //						ricartwins = new RicartAgrawala();
 						permit=0;
 						ricartwins.criticalSection();

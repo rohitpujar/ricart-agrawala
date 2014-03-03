@@ -10,6 +10,7 @@ import java.util.Scanner;
 public class TCPRunner {
 	static List<Node> nodeinfo;
 	static int id;
+	static int totalNodes;
 	
 	public static void main(String[] args) throws FileNotFoundException, IOException, InterruptedException {
 		

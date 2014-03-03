@@ -9,6 +9,7 @@ import java.util.List;
 
 public class ParseFile {
 	
+//	static int totalNodes;
 		
 //	public static void main(String[] args) throws IOException {
 //		readConfigFile();
@@ -27,17 +28,23 @@ public class ParseFile {
 		
 		String line;
 		
-		while((line = readfile.readLine())!= null){
-			
-			data = line.split(" ");
-			Node n = new Node();
-			int nodeid = Integer.parseInt(data[0]);
-			String ip = data[1];
-			int port = Integer.parseInt(data[2]);
-			n.id = nodeid;
-			n.ipaddr = ip;
-			n.portno = port;
-			nodeinfo.add(n);
+		while ((line = readfile.readLine()) != null) {
+			if (!line.startsWith("#")) {
+				data = line.split(" ");
+				if (data[1].equals("#")) {
+					TCPRunner.totalNodes = Integer.parseInt(data[0]);
+					System.out.println("Total nodes : "+TCPRunner.totalNodes);
+				} else {
+					Node n = new Node();
+					int nodeid = Integer.parseInt(data[0]);
+					String ip = data[1];
+					int port = Integer.parseInt(data[2]);
+					n.id = nodeid;
+					n.ipaddr = ip;
+					n.portno = port;
+					nodeinfo.add(n);
+				}
+			}
 		}
 //		new ParseFile().displayNodes(nodeinfo,id);
 		return nodeinfo;
