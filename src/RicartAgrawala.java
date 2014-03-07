@@ -91,9 +91,7 @@ public class RicartAgrawala {
 	public synchronized void criticalSection(){
 //		System.out.println("Time entered C*S : "+TimeStamp.getStartTime());
 		System.out.println("----------------------------------------------- Time entered "+TimeStamp.getTime());
-		long timeElapsed=TimeStamp.getEndTime()-TimeStamp.getStartTime();
 //		System.out.println(" ----- Time elapsed to request and enter : "+timeElapsed);
-		CriticalSectionRequests csr = new CriticalSectionRequests();
 		if(true){
 			System.out.println("******** Entered critical section!!!!!! ********* "+ ++cscount);
 			try {
@@ -103,16 +101,23 @@ public class RicartAgrawala {
 			}
 		}
 		writeToFile();
+		exitCriticalSection();
+		
+	}
+	
+	
+	public static void exitCriticalSection(){
+		CriticalSectionRequests csr = new CriticalSectionRequests();
 		RicartAgrawala.setRequestingCS(false);
 		TimeStamp.setInstancetoNull();
 		sendReplyToDeferredRequests();
 //		System.out.println("Time exited C*S : "+TimeStamp.getEndTime());
+		long timeElapsed=TimeStamp.getEndTime()-TimeStamp.getStartTime();
 		System.out.println("----------------------------------------------- Time exited  "+TimeStamp.getTime());
 		++noofrequests;
 		if(noofrequests<20){
 			csr.sendCSRequests(id);
 		}
-		
 	}
 	
 	public static void sendReplyToDeferredRequests(){
